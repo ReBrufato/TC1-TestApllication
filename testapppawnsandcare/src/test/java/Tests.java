@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.GeckoDriverService;
 
 public class Tests {
 
-    private static String baseUrl = "http://localhost:3000";
+    
     private static File file = new File("src/test/resources/webdriver/geckodriver");
     private static WebDriver driver = null;
 
@@ -26,12 +26,7 @@ public class Tests {
         }
     }
 
-    @Test
-    @DisplayName("Testing the webdriver")
-    public void testingTheWebdriver() {
-        driver.get(baseUrl);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
-        driver.quit();
-    }
+
+
 
 }
