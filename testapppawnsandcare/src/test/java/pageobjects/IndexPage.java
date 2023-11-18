@@ -12,10 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class IndexPage {
     private WebDriver driver;
     private final String url = "http://localhost:3000";
-
+    private By searchInputBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[1]/div/div[2]/input");
+    private By searchBtnBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[1]/button");
     private By registerBtnBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div/button");
-    private By inputElementBy = By.className("sc-giAruI qqQdn");
-    
+    private By inputElementBy = By.className("sc-giAruI");
+    private By nameInTableBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody/tr/th[2]/span");
+    private By confirmBtnBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[3]/button[2]");
+    private By clientNamesBy = By.className("kPiqhn");
+
     public IndexPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -27,10 +31,27 @@ public class IndexPage {
         registerBtn.click();
         List<WebElement> inputElements = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
             ExpectedConditions.presenceOfAllElementsLocatedBy(inputElementBy));
-        inputElements.get(1).sendKeys(name);
-        inputElements.get(2).sendKeys(doc);
-        inputElements.get(3).sendKeys(email);
-        inputElements.get(4).sendKeys(phone);
+        inputElements.get(0).sendKeys(name);
+        inputElements.get(1).sendKeys(doc);
+        inputElements.get(2).sendKeys(email);
+        inputElements.get(3).sendKeys(phone);
+        WebElement confirmBtn = new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+            ExpectedConditions.presenceOfElementLocated(confirmBtnBy));
+        confirmBtn.click();
     }
+
+    public String findClient(String name) {
+        WebElement searchInput = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            ExpectedConditions.visibilityOfElementLocated(searchInputBy));
+        searchInput.sendKeys(name);
+        WebElement searchBtn = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            ExpectedConditions.elementToBeClickable(searchBtnBy));
+        searchBtn.click();
+        WebElement nameInTable = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            ExpectedConditions.visibilityOfElementLocated(nameInTableBy));
+        return nameInTable.getText();
+    }
+
+    
 
 }
