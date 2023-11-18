@@ -19,7 +19,7 @@ public class IndexPage {
     private By nameInTableBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody/tr/th[2]/span");
     private By confirmBtnBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[3]/button[2]");
     private By clientNamesBy = By.className("kPiqhn");
-
+    private By coverLayerBy = By.className("sc-iCoHzw");
     public IndexPage(WebDriver driver) {
         this.driver = driver;
     }
@@ -41,6 +41,7 @@ public class IndexPage {
     }
 
     public String findClient(String name) {
+
         WebElement searchInput = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
             ExpectedConditions.visibilityOfElementLocated(searchInputBy));
         searchInput.sendKeys(name);
