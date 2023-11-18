@@ -20,17 +20,19 @@ import pageobjects.IndexPage;
 public class Tests {
 
     
-    private static File file = new File("src/test/resources/webdriver/geckodriver");
-    private static WebDriver driver = null;
+    //private static File linuxFile = new File("src/test/resources/webdriver/linux/geckodriver");
+    private static File winFile = new File("src/test/resources/webdriver/win/geckodriver.exe");
+    private WebDriver driver = null;
     private static Faker faker = new Faker();
 
     @BeforeEach
     public void getWebDriver() {
         if (driver == null) {
-            FirefoxDriverService service = new GeckoDriverService.Builder().usingDriverExecutable(file).build();
-            FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("-headless");
-            driver = new FirefoxDriver(service, options);
+            FirefoxDriverService service = new GeckoDriverService.Builder().usingDriverExecutable(winFile).build();
+            //FirefoxOptions options = new FirefoxOptions();
+            //options.addArguments("-headless");
+           // driver = new FirefoxDriver(service, options);
+           driver = new FirefoxDriver(service);
         }
     }
 
@@ -40,8 +42,8 @@ public class Tests {
     }
 
     @Test
-    @DisplayName("shouldRegisterAClient")
-    public void shouldRegisterAClient() {
+    @DisplayName("Should register a client and search for him")
+    public void shouldRegisterAClientAndSearchForHim() {
         IndexPage indexPage = new IndexPage(driver);
         String name = faker.name().fullName();
         indexPage.registerClient(
