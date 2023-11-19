@@ -60,6 +60,14 @@ public class Tests {
     }
 
     @Test
+    @DisplayName("shouldReturnOneIfAddClient")
+    void shouldReturnOneIfAddClient(){
+        IndexPage indexPage = new IndexPage(driver);
+        assertThat(indexPage.addClient(faker.name().fullName(), faker.idNumber().toString(),
+                faker.internet().emailAddress(), faker.phoneNumber().toString())).isEqualTo(1);
+    }
+
+    @Test
     @DisplayName("Should register a client and search for his name in the page")
     public void shouldRegisterAClientAndSearchForHisNameInThePage() {
         IndexPage indexPage = new IndexPage(driver);
