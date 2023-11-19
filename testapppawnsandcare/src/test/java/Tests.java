@@ -12,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxDriverService;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.firefox.GeckoDriverService;
 
 import com.github.javafaker.Faker;
 
@@ -37,6 +36,13 @@ public class Tests {
    @AfterEach
     public void quitWebDriver() {
             driver.quit();
+    }
+
+    @Test
+    @DisplayName("shouldPerformRequisitionToApp")
+    void testGetToApp() throws InterruptedException {
+        driver.get("http://localhost:3000/");
+        Thread.sleep(1500);
     }
 
     @Test
