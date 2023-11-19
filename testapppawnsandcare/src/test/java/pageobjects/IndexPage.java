@@ -79,4 +79,17 @@ public class IndexPage {
         return driver.getTitle();
     }
 
+    public String getPageClientes(){
+        driver.get(pageUrl + "pets");
+
+        final WebElement linkClient = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[1]")));
+        linkClient.click();
+
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.titleIs("Paws & Care | Clientes"));
+
+        return driver.getTitle();
+    }
+
 }
