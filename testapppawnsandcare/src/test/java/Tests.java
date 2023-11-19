@@ -2,7 +2,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.time.Duration;
-
+import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,40 +19,41 @@ import pageobjects.IndexPage;
 
 public class Tests {
 
-    
-    //private static File linuxFile = new File("src/test/resources/webdriver/linux/geckodriver");
-    private static File winFile = new File("src/test/resources/webdriver/win/geckodriver.exe");
+    // private File linuxFile = newFile("src/test/resources/webdriver/linux/geckodriver");
+    private File file = new File("src/test/resources/webdriver/win/geckodriver.exe");
     private WebDriver driver = null;
-    private static Faker faker = new Faker();
+    private Faker faker = new Faker();
 
     @BeforeEach
     public void getWebDriver() {
         if (driver == null) {
-            FirefoxDriverService service = new GeckoDriverService.Builder().usingDriverExecutable(winFile).build();
+            FirefoxDriverService service = new GeckoDriverService.Builder().usingDriverExecutable(file).build();
             //FirefoxOptions options = new FirefoxOptions();
             //options.addArguments("-headless");
-           // driver = new FirefoxDriver(service, options);
-           driver = new FirefoxDriver(service);
+            //driver = new FirefoxDriver(service, options);
+            driver = new FirefoxDriver(service);
         }
     }
 
-    @AfterEach
+   @AfterEach
     public void quitWebDriver() {
-        if (driver != null) driver.quit();
+        if (driver != null)
+            driver.quit();
     }
 
     @Test
-    @DisplayName("Should register a client and search for him")
-    public void shouldRegisterAClientAndSearchForHim() {
+    @DisplayName("Should register a client and search for his name in the page")
+    public void shouldRegisterAClientAndSearchForHisNameInThePage() {
         IndexPage indexPage = new IndexPage(driver);
         String name = faker.name().fullName();
+        
         indexPage.registerClient(
-            name,
-            faker.idNumber().toString(),
-            faker.internet().emailAddress(),
-            faker.phoneNumber().toString());
-        assertEquals(indexPage.findClient(name), name);
+                name,
+                faker.idNumber().toString(),
+                faker.internet().emailAddress(),
+                faker.phoneNumber().toString());
+                
+        assertThat(indexPage.isClientNameInThePage(name)).isTrue();
+         
     }
-
-
 }
