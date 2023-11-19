@@ -53,6 +53,13 @@ public class Tests {
     }
 
     @Test
+    @DisplayName("shouldChangeToPageClients")
+    void shouldChangeToPageClients() {
+        IndexPage indexPage = new IndexPage(driver);
+        assertThat(indexPage.getPageClientes()).isEqualTo("Paws & Care | Clientes");
+    }
+
+    @Test
     @DisplayName("Should register a client and search for his name in the page")
     public void shouldRegisterAClientAndSearchForHisNameInThePage() {
         IndexPage indexPage = new IndexPage(driver);
