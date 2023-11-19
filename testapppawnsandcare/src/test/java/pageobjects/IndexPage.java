@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class IndexPage {
     private WebDriver driver;
-    private final String url = "http://localhost:3000";
+    private final String pageUrl = "http://localhost:3000/";
     private By searchInputBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[1]/div/div[2]/input");
     private By searchBtnBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[1]/button");
     private By registerBtnBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div/button");
@@ -25,10 +25,10 @@ public class IndexPage {
 
     public IndexPage(WebDriver driver) {
         this.driver = driver;
-        driver.get(url);
     }
 
     public void registerClient(String name, String doc, String email, String phone) {
+        driver.get(pageUrl);
         
         WebElement registerBtn = new WebDriverWait(driver, Duration.ofSeconds(10)).until(
                 ExpectedConditions.elementToBeClickable(registerBtnBy));
@@ -53,6 +53,7 @@ public class IndexPage {
     }
 
     private String findClientName(String name) {
+        driver.get(pageUrl);
 
         WebElement searchInput = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
                 ExpectedConditions.visibilityOfElementLocated(searchInputBy));
@@ -63,6 +64,19 @@ public class IndexPage {
         WebElement nameInTable = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
                 ExpectedConditions.visibilityOfElementLocated(nameInTableBy));
         return nameInTable.getText();
+    }
+
+    public String getPagePet(){
+        driver.get(pageUrl);
+
+        final WebElement linkPet = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[2]")));
+        linkPet.click();
+
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.titleIs("Paws & Care | Pets"));
+
+        return driver.getTitle();
     }
 
 }
