@@ -50,5 +50,16 @@ public class Tests {
         assertThat(indexPage.getPageUrl()).isEqualTo(driver.getCurrentUrl());
     }
 
-   
+     @Test
+    @DisplayName("Should register a client and search for his name in the page")
+    public void shouldRegisterAClientAndSearchForHisNameInThePage() {
+        IndexPage indexPage = new IndexPage(driver);
+        int tableSizeBefore = indexPage.getClientTableBodySize();
+        indexPage.addClient(
+                faker.name().fullName(),
+                faker.idNumber().toString(),
+                faker.internet().emailAddress(),
+                faker.phoneNumber().toString());
+        assertThat(indexPage.getClientTableBodySize()).isGreaterThan(tableSizeBefore);
+    }
 }
