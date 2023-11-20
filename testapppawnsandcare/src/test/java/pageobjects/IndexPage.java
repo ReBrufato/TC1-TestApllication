@@ -23,8 +23,30 @@ public class IndexPage {
     private By clientNamesBy = By.className("kPiqhn");
     private By coverLayerBy = By.className("sc-iCoHzw");
 
+    private By linkToPetPageBy = By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[2]");
+
+    private By clientTableBodyBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody");
+
     public IndexPage(WebDriver driver) {
         this.driver = driver;
+        driver.get(url);
+    }
+
+    public String getPageUrl() {
+        return url;
+    }
+
+    public PetPage goToPetPage() {
+        WebElement linkToPetPage = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.presenceOfElementLocated(linkToPetPageBy));
+        linkToPetPage.click();
+        return new PetPage(driver);
+    }
+
+    public int getClientTableBodySize() {
+        WebElement tableBody = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.presenceOfElementLocated(clientTableBodyBy));
+        return tableBody.findElements(By.tagName("tr")).size();
     }
 
     public void registerClient(String name, String doc, String email, String phone) {
