@@ -10,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.github.javafaker.Faker;
 
+import dtos.ClientDTO;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import pageobjects.IndexPage;
 import pageobjects.PetPage;
@@ -50,16 +51,36 @@ public class Tests {
         assertThat(indexPage.getPageUrl()).isEqualTo(driver.getCurrentUrl());
     }
 
-     @Test
-    @DisplayName("Should register a client and search for his name in the page")
-    public void shouldRegisterAClientAndSearchForHisNameInThePage() {
+    @Test
+    @DisplayName("Should add a client")
+    public void shouldAddAClient() {
         IndexPage indexPage = new IndexPage(driver);
         int tableSizeBefore = indexPage.getClientTableBodySize();
         indexPage.addClient(
+                new ClientDTO(
+                        faker.name().fullName(),
+                        faker.idNumber().valid(),
+                        faker.internet().emailAddress(),
+                        faker.phoneNumber().phoneNumber()));
+        assertThat(indexPage.getClientTableBodySize()).isGreaterThan(tableSizeBefore);
+    }
+
+    @Test
+    @DisplayName("Should add a client and edit your data")
+    public void shouldAddAClientAndEditYourData() {
+        IndexPage indexPage = new IndexPage(driver);
+        ClientDTO inicialClientData = new ClientDTO(
                 faker.name().fullName(),
                 faker.idNumber().toString(),
                 faker.internet().emailAddress(),
                 faker.phoneNumber().toString());
-        assertThat(indexPage.getClientTableBodySize()).isGreaterThan(tableSizeBefore);
+        indexPage.addClient(inicialClientData);
+        ClientDTO newClientData = new ClientDTO(
+                faker.name().fullName(),
+                faker.number().digits(10),
+                faker.internet().emailAddress(),
+                faker.phoneNumber().phoneNumber());
+        indexPage.editClient(newClientData);
+        assertThat(newClientData).isEqualTo(indexPage.getDataOfAddedClient());
     }
 }
