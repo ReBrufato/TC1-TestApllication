@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import dtos.ClientDTO;
+
 public class IndexPage {
     private WebDriver driver;
     private final String url = "http://localhost:3000/";
@@ -40,16 +42,20 @@ public class IndexPage {
         return tableBody.findElements(By.tagName("tr")).size();
     }
 
-    public void addClient(String name, String doc, String email, String phone) {
+    public void addClient(ClientDTO clientDTO) {
         WebElement registerBtn = new WebDriverWait(driver, Duration.ofSeconds(10)).until(
                 ExpectedConditions.elementToBeClickable(registerBtnBy));
         registerBtn.click();
+       setFormInputs(clientDTO);
+    }
+    
+    private void setFormInputs(ClientDTO clientDTO) {
         List<WebElement> inputElements = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(inputElementsBy));
-        inputElements.get(0).sendKeys(name);
-        inputElements.get(1).sendKeys(doc);
-        inputElements.get(2).sendKeys(email);
-        inputElements.get(3).sendKeys(phone);
+        inputElements.get(0).sendKeys(clientDTO.getEmail());
+        inputElements.get(1).sendKeys(clientDTO.getDoc());
+        inputElements.get(2).sendKeys(clientDTO.getEmail());
+        inputElements.get(3).sendKeys(clientDTO.getPhone());
         WebElement confirmBtn = new WebDriverWait(driver, Duration.ofSeconds(10)).until(
                 ExpectedConditions.presenceOfElementLocated(confirmBtnBy));
         confirmBtn.click();
