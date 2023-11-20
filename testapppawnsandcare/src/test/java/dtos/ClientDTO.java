@@ -16,6 +16,10 @@ public class ClientDTO {
         this.phone = phone;
     }
 
+    public ClientDTO(String name, String doc, String email) {
+        this(name, doc, email, null);
+    }
+
 
     public String getName() {
         return this.name;
@@ -33,7 +37,6 @@ public class ClientDTO {
         return this.phone;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -42,12 +45,12 @@ public class ClientDTO {
             return false;
         }
         ClientDTO clientDTO = (ClientDTO) o;
-        return Objects.equals(name, clientDTO.name) && Objects.equals(doc, clientDTO.doc) && Objects.equals(email, clientDTO.email) && Objects.equals(phone, clientDTO.phone);
+        return Objects.equals(name, clientDTO.name) && Objects.equals(doc, clientDTO.doc) && Objects.equals(email, clientDTO.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, doc, email, phone);
+        return Objects.hash(name, doc, email);
     }
     
 
