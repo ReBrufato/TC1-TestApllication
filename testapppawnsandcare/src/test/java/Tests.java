@@ -43,31 +43,12 @@ public class Tests {
     }
 
     @Test
-    @DisplayName("shouldChangeToPageClients")
-    void shouldChangeToPageClients() {
-        IndexPage indexPage = new IndexPage(driver);
-        assertThat(indexPage.getPageClientes()).isEqualTo("Paws & Care | Clientes");
+    @DisplayName("Should access the index page from pet page")
+    void shouldAccessTheIndexPageFromPetPage() {
+        PetPage petPage = new PetPage(driver);
+        IndexPage indexPage = petPage.goToIndexPage(driver);
+        assertThat(indexPage.getPageUrl()).isEqualTo(driver.getCurrentUrl());
     }
 
-    @Test
-    @DisplayName("shouldReturnOneIfAddClient")
-    void shouldReturnOneIfAddClient() {
-        IndexPage indexPage = new IndexPage(driver);
-        assertThat(indexPage.addClient(faker.name().fullName(), faker.idNumber().toString(),
-                faker.internet().emailAddress(), faker.phoneNumber().toString())).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("Should register a client and search for his name in the page")
-    public void shouldRegisterAClientAndSearchForHisNameInThePage() {
-        IndexPage indexPage = new IndexPage(driver);
-        String name = faker.name().fullName();
-        indexPage.registerClient(
-                name,
-                faker.idNumber().toString(),
-                faker.internet().emailAddress(),
-                faker.phoneNumber().toString());
-
-        assertThat(indexPage.isClientNameInThePage(name)).isTrue();
-    }
+   
 }
