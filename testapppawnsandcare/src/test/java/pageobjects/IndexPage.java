@@ -22,7 +22,7 @@ public class IndexPage {
         private By linkToPetPageBy = By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[2]");
         private By clientTableBodyBy = By
                         .xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody");
-        private By modalBackgoundBy = By.xpath("/html/body/div[3]/div[1]");
+       
 
         public IndexPage(WebDriver driver) {
                 this.driver = driver;
@@ -51,12 +51,20 @@ public class IndexPage {
                 setFormInputs(clientDTO);
         }
 
-        public void editClient(ClientDTO clientDTO) {
+        public void deleteClient() {
+                WebElement delBtn = getClientTableBodyRows().get(getClientTableBodySize() - 1)
+                                .findElements(By.tagName("button")).get(1);
+                new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
+                        .pollingEvery(Duration.ofMillis(500))
+                        .ignoring(ElementClickInterceptedException.class)
+                        .until(ExpectedConditions.elementToBeClickable(delBtn)).click();
+                new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                                ExpectedConditions.elementToBeClickable(confirmBtnBy)).click();
+        }
 
+        public void editClient(ClientDTO clientDTO) {
                 WebElement editBtn = getClientTableBodyRows().get(getClientTableBodySize() - 1)
                                 .findElements(By.tagName("button")).get(0);
-        
-                
                 new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
                         .pollingEvery(Duration.ofMillis(500))
                         .ignoring(ElementClickInterceptedException.class)
