@@ -83,4 +83,19 @@ public class Tests {
         indexPage.editClient(newClientData);
         assertThat(newClientData).isEqualTo(indexPage.getDataOfAddedClient());
     }
+
+    @Test
+    @DisplayName("Should add a client and delete it")
+    public void shouldAddAClientAndDeleteIt() {
+        IndexPage indexPage = new IndexPage(driver);
+        int tableSizeBefore = indexPage.getClientTableBodySize();
+        indexPage.addClient(
+                new ClientDTO(
+                        faker.name().fullName(),
+                        faker.idNumber().valid(),
+                        faker.internet().emailAddress(),
+                        faker.phoneNumber().phoneNumber()));
+        indexPage.deleteClient();
+        assertThat(indexPage.getClientTableBodySize()).isZero();
+    }
 }
