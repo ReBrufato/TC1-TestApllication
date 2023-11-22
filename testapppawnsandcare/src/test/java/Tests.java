@@ -1,6 +1,7 @@
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import dtos.PetDTO;
 import org.junit.jupiter.api.*;
@@ -104,6 +105,29 @@ public class Tests {
         }
 
         @Test
+        @DisplayName("Should add pet")
+        void shoulAddPet() {
+            IndexPage indexPage = new IndexPage(driver);
+
+            indexPage.addClient(
+                    new ClientDTO(
+                            "Renan Brufato",
+                            faker.idNumber().valid(),
+                            faker.internet().emailAddress(),
+                            faker.phoneNumber().phoneNumber()));
+
+            PetPage petPage = new PetPage(driver);
+
+            boolean verify = petPage.addPet(new PetDTO(
+                            faker.name().name(),
+                            faker.cat().name(),
+                            faker.cat().breed(),
+                            ""));
+
+            assertThat(verify).isTrue();
+        }
+
+        @Test
         @DisplayName("Should not add pet if number of clients is zero")
         void shouldNotAddPetIfNumberOfClientsIsZero() {
             PetPage petPage = new PetPage(driver);
@@ -111,9 +135,8 @@ public class Tests {
                     faker.name().name(),
                     faker.cat().name(),
                     faker.cat().breed(),
-                    ""
-                    )
-            );
+                    ""));
+
             assertThat(verify).isFalse();
         }
 
