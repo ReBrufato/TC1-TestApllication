@@ -1,7 +1,9 @@
 package pageobjects;
 
 import java.time.Duration;
+import java.util.List;
 
+import dtos.PetDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +16,20 @@ public class PetPage {
     private final String url = "http://localhost:3000/pets"; 
 
     private By linkToIndexPageBy = By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[1]");
+
+    private By msgErrorBy = By.xpath("/html/body/div[3]/div[4]/div/div/div[1]/h6");
+
+    private By inputNameBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[1]/div[2]/input");
+
+    private By inputTypeBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[2]/div[2]/input");
+
+    private By inputBreedBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[3]/div[2]/input");
+
+    private By inputOwnerBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[4]/div[2]/div/div[1]/div[2]/input");
+
+    private By registerBtnBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div/button");
+
+    private By confirmBtnBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[3]/button[2]");
 
     public PetPage(WebDriver driver) {
         this.driver = driver;
@@ -29,5 +45,30 @@ public class PetPage {
                 ExpectedConditions.presenceOfElementLocated(linkToIndexPageBy));
         linkToIndexPage.click();
         return new IndexPage(driver);
+    }
+
+    public boolean addPet(PetDTO petDTO){
+        WebElement registerBtn = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(registerBtnBy));
+        registerBtn.click();
+
+        setFormInputs(petDTO);
+
+        WebElement msgError = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.visibilityOfElementLocated(msgErrorBy));
+
+        if (msgError.isDisplayed()) return false;
+        return true;
+    }
+
+    public void setFormInputs(PetDTO petDTO){
+        driver.findElement(inputNameBy).sendKeys(petDTO.getName());
+        driver.findElement(inputTypeBy).sendKeys(petDTO.getType());
+        driver.findElement(inputBreedBy).sendKeys(petDTO.getBreed());
+        driver.findElement(inputOwnerBy).sendKeys(petDTO.getOwner());
+
+        WebElement confirmBtn = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.elementToBeClickable(confirmBtnBy));
+        confirmBtn.click();
     }
 }
