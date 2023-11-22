@@ -1,6 +1,8 @@
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import dtos.PetDTO;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -99,6 +101,20 @@ public class Tests {
             PetPage petPage = new PetPage(driver);
             IndexPage indexPage = petPage.goToIndexPage(driver);
             assertThat(indexPage.getPageUrl()).isEqualTo(driver.getCurrentUrl());
+        }
+
+        @Test
+        @DisplayName("Should not add pet if number of clients is zero")
+        void shouldNotAddPetIfNumberOfClientsIsZero() {
+            PetPage petPage = new PetPage(driver);
+            boolean verify = petPage.addPet(new PetDTO(
+                    faker.name().name(),
+                    faker.cat().name(),
+                    faker.cat().breed(),
+                    ""
+                    )
+            );
+            assertThat(verify).isFalse();
         }
 
     }
