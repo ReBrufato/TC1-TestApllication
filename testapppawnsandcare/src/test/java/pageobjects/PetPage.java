@@ -3,6 +3,7 @@ package pageobjects;
 import java.time.Duration;
 import java.util.List;
 
+import dtos.ClientDTO;
 import dtos.PetDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -75,5 +76,34 @@ public class PetPage {
         WebElement tableBody = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
                 ExpectedConditions.presenceOfElementLocated(petTableBodyBy));
         return tableBody.findElements(By.tagName("tr"));
+    }
+
+    public void editPet(PetDTO petDTO) {
+        WebElement editBtn = getPetTableBodyRows().get(getPetTableBodySize() - 1)
+                .findElements(By.tagName("button")).get(0);
+        new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(ElementClickInterceptedException.class)
+                .until(ExpectedConditions.elementToBeClickable(editBtn)).click();
+        cleanFormInputs();
+        setFormInputs(petDTO);
+    }
+
+    private void cleanFormInputs() {
+        List<WebElement> inputElements = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(inputElementsBy));
+        inputElements.get(0).clear();
+        inputElements.get(1).clear();
+        inputElements.get(2).clear();
+    }
+
+    public PetDTO getDataOfAddedPet() {
+        List<WebElement> thElements = getPetTableBodyRows().get(getPetTableBodySize() - 1)
+                .findElements(By.cssSelector("th span"));
+        return new PetDTO(
+                thElements.get(1).getText(),
+                thElements.get(3).getText(),
+                thElements.get(4).getText(),
+                thElements.get(2).getText());
     }
 }
