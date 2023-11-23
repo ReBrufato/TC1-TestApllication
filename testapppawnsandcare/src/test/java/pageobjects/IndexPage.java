@@ -22,7 +22,6 @@ public class IndexPage {
         private By linkToPetPageBy = By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[2]");
         private By clientTableBodyBy = By
                         .xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody");
-       
 
         public IndexPage(WebDriver driver) {
                 this.driver = driver;
@@ -34,9 +33,10 @@ public class IndexPage {
         }
 
         public PetPage goToPetPage() {
-                WebElement linkToPetPage = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
-                                ExpectedConditions.presenceOfElementLocated(linkToPetPageBy));
-                linkToPetPage.click();
+                new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
+                        .pollingEvery(Duration.ofMillis(1000))
+                        .ignoring(ElementClickInterceptedException.class)
+                        .until(ExpectedConditions.elementToBeClickable(linkToPetPageBy)).click();
                 return new PetPage(driver);
         }
 
@@ -50,7 +50,7 @@ public class IndexPage {
                 registerBtn.click();
                 setFormInputs(clientDTO);
         }
-
+ 
         public void deleteClient() {
                 WebElement delBtn = getClientTableBodyRows().get(getClientTableBodySize() - 1)
                                 .findElements(By.tagName("button")).get(1);

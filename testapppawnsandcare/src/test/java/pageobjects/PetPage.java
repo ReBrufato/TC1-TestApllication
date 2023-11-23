@@ -48,9 +48,7 @@ public class PetPage {
         WebElement registerBtn = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(registerBtnBy));
         registerBtn.click();
-
         setFormInputs(petDTO);
-
     }
 
     public void setFormInputs(PetDTO petDTO) {
