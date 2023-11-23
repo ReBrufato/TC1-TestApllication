@@ -73,6 +73,20 @@ public class Tests {
         }
 
         @Test
+        @DisplayName("Should allow to add a client using a doc id without a pattern")
+        public void shouldAllowToAddAClientUsingDocIdWithoutPattern() {
+            IndexPage indexPage = new IndexPage(driver);
+            int tableSizeBefore = indexPage.getClientTableBodySize();
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            "1",
+                            faker.internet().emailAddress(),
+                            faker.phoneNumber().phoneNumber()));
+            assertThat(indexPage.getClientTableBodySize()).isGreaterThan(tableSizeBefore);
+        }
+
+        @Test
         @DisplayName("Should add a client and edit your data")
         public void shouldAddAClientAndEditYourData() {
             IndexPage indexPage = new IndexPage(driver);
