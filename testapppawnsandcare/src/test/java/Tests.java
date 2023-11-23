@@ -61,6 +61,20 @@ public class Tests {
         }
 
         @Test
+        @DisplayName("Should not allow to add a client using an invalid email")
+        public void shouldNotAllowToAddAClientUsingAnInvalidEMail() {
+            IndexPage indexPage = new IndexPage(driver);
+            int tableSizeBefore = indexPage.getClientTableBodySize();
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            faker.idNumber().valid(),
+                            "invalid_email",
+                            faker.phoneNumber().phoneNumber()));
+            assertThat(indexPage.getClientTableBodySize()).isGreaterThan(tableSizeBefore);
+        }
+
+        @Test
         @DisplayName("Should add a client and edit your data")
         public void shouldAddAClientAndEditYourData() {
             IndexPage indexPage = new IndexPage(driver);
