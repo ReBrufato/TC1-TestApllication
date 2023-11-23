@@ -1,7 +1,5 @@
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import dtos.PetDTO;
 import org.junit.jupiter.api.*;
@@ -61,8 +59,8 @@ public class Tests {
         }
 
         @Test
-        @DisplayName("Should not allow to add a client using an invalid email")
-        public void shouldNotAllowToAddAClientUsingAnInvalidEMail() {
+        @DisplayName("Should allow to add a client using an invalid email")
+        public void shouldAllowToAddAClientUsingAnInvalidEMail() {
             IndexPage indexPage = new IndexPage(driver);
             int tableSizeBefore = indexPage.getClientTableBodySize();
             indexPage.addClient(
@@ -106,6 +104,7 @@ public class Tests {
             indexPage.deleteClient();
             assertThat(indexPage.getClientTableBodySize()).isZero();
         }
+
     }
 
     @Nested
