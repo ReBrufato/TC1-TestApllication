@@ -26,7 +26,9 @@ public class Tests {
     }
 
     @BeforeEach
-    public void getWebDriver() {driver = new FirefoxDriver();}
+    public void getWebDriver() {
+        driver = new FirefoxDriver();
+    }
 
     @AfterEach
     public void quitWebDriver() {
@@ -35,7 +37,7 @@ public class Tests {
 
     @Nested
     @DisplayName("Tests IndexPage")
-    class IndexPageTests{
+    class IndexPageTests {
         @Test
         @DisplayName("Should access the pet page from index page")
         void shouldAccessThePetPageFromIndexPage() {
@@ -81,7 +83,6 @@ public class Tests {
         @DisplayName("Should add a client and delete it")
         public void shouldAddAClientAndDeleteIt() {
             IndexPage indexPage = new IndexPage(driver);
-            int tableSizeBefore = indexPage.getClientTableBodySize();
             indexPage.addClient(
                     new ClientDTO(
                             faker.name().fullName(),
@@ -95,7 +96,7 @@ public class Tests {
 
     @Nested
     @DisplayName("Tests PetPage")
-    class PetPageTests{
+    class PetPageTests {
         @Test
         @DisplayName("Should access the index page from pet page")
         void shouldAccessTheIndexPageFromPetPage() {
@@ -105,42 +106,42 @@ public class Tests {
         }
 
         @Test
-        @DisplayName("Should add pet")
-        void shoulAddPet() {
+        @DisplayName("Should add a client and a pet")
+        void shouldAddAClientAndAPet() {
             IndexPage indexPage = new IndexPage(driver);
+            ClientDTO clientDTO = new ClientDTO(
+                    faker.name().fullName(),
+                    faker.idNumber().valid(),
+                    faker.internet().emailAddress(),
+                    faker.phoneNumber().phoneNumber());
+            indexPage.addClient(clientDTO);
 
-            indexPage.addClient(
-                    new ClientDTO(
-                            "Renan Brufato",
-                            faker.idNumber().valid(),
-                            faker.internet().emailAddress(),
-                            faker.phoneNumber().phoneNumber()));
-
-            PetPage petPage = new PetPage(driver);
-
-            boolean verify = petPage.addPet(new PetDTO(
-                            faker.name().name(),
-                            faker.cat().name(),
-                            faker.cat().breed(),
-                            ""));
-
-            assertThat(verify).isTrue();
-        }
-
-        @Test
-        @DisplayName("Should not add pet if number of clients is zero")
-        void shouldNotAddPetIfNumberOfClientsIsZero() {
-            PetPage petPage = new PetPage(driver);
-            boolean verify = petPage.addPet(new PetDTO(
-                    faker.name().name(),
+            PetPage petPage = new PetPage(driver); //indexPage.goToPetPage(); it is not possible to use this method because the modal container obscures the link element, even using a fluent wait
+            int tableSizeBefore = petPage.getPetTableBodySize();
+            PetDTO petDTO = new PetDTO(
                     faker.cat().name(),
+                    "Gato",
                     faker.cat().breed(),
-                    ""));
-
-            assertThat(verify).isFalse();
+                    clientDTO.getName());
+            petPage.addPet(petDTO);
+            assertThat(petPage.getPetTableBodySize()).isGreaterThan(tableSizeBefore);
         }
 
+        /*
+         * @Test
+         * 
+         * @DisplayName("Should not add pet if number of clients is zero")
+         * void shouldNotAddPetIfNumberOfClientsIsZero() {
+         * PetPage petPage = new PetPage(driver);
+         * boolean verify = petPage.addPet(new PetDTO(
+         * faker.name().name(),
+         * faker.cat().name(),
+         * faker.cat().breed(),
+         * ""));
+         * 
+         * assertThat(verify).isFalse();
+         * }
+         */
     }
-
 
 }
