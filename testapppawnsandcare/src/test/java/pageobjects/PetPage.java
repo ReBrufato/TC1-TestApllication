@@ -12,27 +12,20 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class PetPage {
-    
+
     private WebDriver driver;
     private final String url = "http://localhost:3000/pets";
-
     private By linkToIndexPageBy = By.xpath("/html/body/div[1]/div/div[1]/div[2]/div/div/a[1]");
-
     private By msgErrorBy = By.xpath("/html/body/div[3]/div[4]/div/div/div[1]/h6");
-
     private By inputNameBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[1]/div[2]/input");
-
     private By inputTypeBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[2]/div[2]/input");
-
     private By inputBreedBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[3]/div[2]/input");
-
-    private By selectOwnerBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[4]/div[2]/div/div[1]/div[2]/input");
-
+    private By selectOwnerBy = By
+            .xpath("/html/body/div[3]/div[2]/div/div/div[2]/div[4]/div[2]/div/div[1]/div[2]/input");
     private By registerBtnBy = By.xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[1]/div/button");
-
     private By confirmBtnBy = By.xpath("/html/body/div[3]/div[2]/div/div/div[3]/button[2]");
-
-
+    private By petTableBodyBy = By
+            .xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody");
 
     public PetPage(WebDriver driver) {
         this.driver = driver;
@@ -50,7 +43,7 @@ public class PetPage {
         return new IndexPage(driver);
     }
 
-    public boolean addPet(PetDTO petDTO){
+    public boolean addPet(PetDTO petDTO) {
         WebElement registerBtn = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(registerBtnBy));
         registerBtn.click();
@@ -60,18 +53,20 @@ public class PetPage {
         WebElement msgError = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
                 ExpectedConditions.visibilityOfElementLocated(msgErrorBy));
 
-        if (msgError.isDisplayed() || verify == false) return false;
+        if (msgError.isDisplayed() || verify == false)
+            return false;
         return true;
     }
 
-    public boolean setFormInputs(PetDTO petDTO){
+    public boolean setFormInputs(PetDTO petDTO) {
         driver.findElement(inputNameBy).sendKeys(petDTO.getName());
         driver.findElement(inputTypeBy).sendKeys(petDTO.getType());
         driver.findElement(inputBreedBy).sendKeys(petDTO.getBreed());
 
         WebElement owner = validateOwner();
 
-        if (owner == null) return false;
+        if (owner == null)
+            return false;
 
         WebElement confirmBtn = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
                 ExpectedConditions.elementToBeClickable(confirmBtnBy));
@@ -80,12 +75,22 @@ public class PetPage {
         return true;
     }
 
-    public WebElement validateOwner(){
+    public int getPetTableBodySize() {
+        return getPetTableBodyRows().size();
+    }
+
+    public WebElement validateOwner() {
         WebElement element = driver.findElement(selectOwnerBy);
         Select select = new Select(element);
 
         select.selectByIndex(0);
 
         return select.getFirstSelectedOption();
+    }
+
+    private List<WebElement> getPetTableBodyRows() {
+        WebElement tableBody = new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+                ExpectedConditions.presenceOfElementLocated(petTableBodyBy));
+        return tableBody.findElements(By.tagName("tr"));
     }
 }
