@@ -154,21 +154,6 @@ public class Tests {
             assertThat(petPage.getPetTableBodySize()).isGreaterThan(tableSizeBefore);
         }
 
-        /*
-         * @Test
-         * 
-         * @DisplayName("Should not add pet if number of clients is zero")
-         * void shouldNotAddPetIfNumberOfClientsIsZero() {
-         * PetPage petPage = new PetPage(driver);
-         * boolean verify = petPage.addPet(new PetDTO(
-         * faker.name().name(),
-         * faker.cat().name(),
-         * faker.cat().breed(),
-         * ""));
-         * 
-         * assertThat(verify).isFalse();
-         * }
-         */
     }
 
 }

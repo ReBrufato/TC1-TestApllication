@@ -37,10 +37,10 @@ public class PetPage {
     }
 
     public IndexPage goToIndexPage(WebDriver driver) {
-         new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
-                        .pollingEvery(Duration.ofMillis(1000))
-                        .ignoring(ElementClickInterceptedException.class)
-                        .until(ExpectedConditions.elementToBeClickable(linkToIndexPageBy)).click();
+        new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(1000))
+                .ignoring(ElementClickInterceptedException.class)
+                .until(ExpectedConditions.elementToBeClickable(linkToIndexPageBy)).click();
         return new IndexPage(driver);
     }
 

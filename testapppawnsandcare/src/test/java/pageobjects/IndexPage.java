@@ -34,9 +34,9 @@ public class IndexPage {
 
         public PetPage goToPetPage() {
                 new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
-                        .pollingEvery(Duration.ofMillis(1000))
-                        .ignoring(ElementClickInterceptedException.class)
-                        .until(ExpectedConditions.elementToBeClickable(linkToPetPageBy)).click();
+                                .pollingEvery(Duration.ofMillis(1000))
+                                .ignoring(ElementClickInterceptedException.class)
+                                .until(ExpectedConditions.elementToBeClickable(linkToPetPageBy)).click();
                 return new PetPage(driver);
         }
 
@@ -50,14 +50,14 @@ public class IndexPage {
                 registerBtn.click();
                 setFormInputs(clientDTO);
         }
- 
+
         public void deleteClient() {
                 WebElement delBtn = getClientTableBodyRows().get(getClientTableBodySize() - 1)
                                 .findElements(By.tagName("button")).get(1);
                 new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
-                        .pollingEvery(Duration.ofMillis(500))
-                        .ignoring(ElementClickInterceptedException.class)
-                        .until(ExpectedConditions.elementToBeClickable(delBtn)).click();
+                                .pollingEvery(Duration.ofMillis(500))
+                                .ignoring(ElementClickInterceptedException.class)
+                                .until(ExpectedConditions.elementToBeClickable(delBtn)).click();
                 new WebDriverWait(driver, Duration.ofSeconds(10)).until(
                                 ExpectedConditions.elementToBeClickable(confirmBtnBy)).click();
         }
@@ -66,9 +66,9 @@ public class IndexPage {
                 WebElement editBtn = getClientTableBodyRows().get(getClientTableBodySize() - 1)
                                 .findElements(By.tagName("button")).get(0);
                 new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
-                        .pollingEvery(Duration.ofMillis(500))
-                        .ignoring(ElementClickInterceptedException.class)
-                        .until(ExpectedConditions.elementToBeClickable(editBtn)).click();
+                                .pollingEvery(Duration.ofMillis(500))
+                                .ignoring(ElementClickInterceptedException.class)
+                                .until(ExpectedConditions.elementToBeClickable(editBtn)).click();
                 cleanFormInputs();
                 setFormInputs(clientDTO);
         }
@@ -79,9 +79,9 @@ public class IndexPage {
                 return new ClientDTO(
                                 thElements.get(1).getText(),
                                 thElements.get(2).getText()
-                                        .replace("-", "")
-                                        .replace("/", "")
-                                        .replace(".", ""),
+                                                .replace("-", "")
+                                                .replace("/", "")
+                                                .replace(".", ""),
                                 thElements.get(3).getText());
         }
 
