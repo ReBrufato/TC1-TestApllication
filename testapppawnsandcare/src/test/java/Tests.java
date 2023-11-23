@@ -143,7 +143,9 @@ public class Tests {
                     faker.phoneNumber().phoneNumber());
             indexPage.addClient(clientDTO);
 
-            PetPage petPage = new PetPage(driver); //indexPage.goToPetPage(); it is not possible to use this method because the modal container obscures the link element, even using a fluent wait
+            PetPage petPage = new PetPage(driver); // indexPage.goToPetPage(); it is not possible to use this method
+                                                   // because the modal container obscures the link element, even using
+                                                   // a fluent wait
             int tableSizeBefore = petPage.getPetTableBodySize();
             PetDTO petDTO = new PetDTO(
                     faker.cat().name(),
@@ -152,6 +154,36 @@ public class Tests {
                     clientDTO.getName());
             petPage.addPet(petDTO);
             assertThat(petPage.getPetTableBodySize()).isGreaterThan(tableSizeBefore);
+        }
+
+        @Test
+        @DisplayName("Should add a client, a pet and edit the pet data after it")
+        void shouldAddAClientAPetAndEditThePetDataAfterIt() {
+            IndexPage indexPage = new IndexPage(driver);
+            ClientDTO clientDTO = new ClientDTO(
+                    faker.name().fullName(),
+                    faker.idNumber().valid(),
+                    faker.internet().emailAddress(),
+                    faker.phoneNumber().phoneNumber());
+            indexPage.addClient(clientDTO);
+
+            PetPage petPage = new PetPage(driver); // indexPage.goToPetPage(); it is not possible to use this method
+                                                   // because the modal container obscures the link element, even using
+                                                   // a fluent wait
+            PetDTO petDTO = new PetDTO(
+                    faker.cat().name(),
+                    "Gato",
+                    faker.cat().breed(),
+                    clientDTO.getName());
+            petPage.addPet(petDTO);
+
+            PetDTO newPet = new PetDTO(
+                    faker.cat().name(),
+                    "Gato",
+                    faker.cat().breed(),
+                    clientDTO.getName());
+            petPage.editPet(newPet);
+            assertThat(newPet).isEqualTo(petPage.getDataOfAddedPet());
         }
 
     }
