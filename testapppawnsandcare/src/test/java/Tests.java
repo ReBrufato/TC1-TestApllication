@@ -184,6 +184,19 @@ public class Tests {
             assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"phone\" está faltando");
         }
 
+        @Test
+        @DisplayName("Should not allow to add a client with phone containg characters different from numbers")
+        public void shouldNotAllowToAddAClientWithPhoneContaingCharactersDifferentFromNumbers() {
+            IndexPage indexPage = new IndexPage(driver);
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            faker.idNumber().valid(),
+                            faker.internet().emailAddress(),
+                            faker.lorem().sentence()));
+            assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"phone\" está faltando");
+        }
+
     }
 
     @Nested
