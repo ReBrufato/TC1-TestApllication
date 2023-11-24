@@ -159,8 +159,8 @@ public class Tests {
         }
 
         @Test
-        @DisplayName("Should not allow to add a client with doc containg characters different from numbers")
-        public void shouldNotAllowToAddAClientWithDocContaingCharactersDifferentFromNumbers() {
+        @DisplayName("Should not allow to add a client with doc contaning characters different from numbers")
+        public void shouldNotAllowToAddAClientWithDocContaningCharactersDifferentFromNumbers() {
             IndexPage indexPage = new IndexPage(driver);
             indexPage.addClient(
                     new ClientDTO(
@@ -169,6 +169,19 @@ public class Tests {
                             faker.internet().emailAddress(),
                             faker.phoneNumber().phoneNumber()));
             assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"document\" está faltando");
+        }
+
+        @Test
+        @DisplayName("Should not allow to add a client with empty phone")
+        public void shouldNotAllowToAddAClientWithEmptyPhone() {
+            IndexPage indexPage = new IndexPage(driver);
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            faker.idNumber().valid(),
+                            faker.internet().emailAddress(),
+                            ""));
+            assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"phone\" está faltando");
         }
 
     }
