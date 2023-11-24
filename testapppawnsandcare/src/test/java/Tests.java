@@ -158,6 +158,19 @@ public class Tests {
             assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"document\" está faltando");
         }
 
+        @Test
+        @DisplayName("Should not allow to add a client with doc containg characters different from numbers")
+        public void shouldNotAllowToAddAClientWithDocContaingCharactersDifferentFromNumbers() {
+            IndexPage indexPage = new IndexPage(driver);
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            faker.lorem().sentence(),
+                            faker.internet().emailAddress(),
+                            faker.phoneNumber().phoneNumber()));
+            assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"document\" está faltando");
+        }
+
     }
 
     @Nested
