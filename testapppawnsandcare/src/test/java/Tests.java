@@ -263,6 +263,19 @@ public class Tests {
             assertThat(newPet).isEqualTo(petPage.getDataOfAddedPet());
         }
 
+        @Test
+        @DisplayName("Should not allow to add a pet if do not has a client registered")
+        void shouldNotAllowAddAPetIfDoNotHasAClientRegistered() {
+            PetPage petPage = new PetPage(driver);
+            PetDTO petDTO = new PetDTO(
+                    faker.cat().name(),
+                    "Gato",
+                    faker.cat().breed(),
+                    "");
+            petPage.addPet(petDTO);
+            assertThat(petPage.getErrorMessage()).isEqualTo("O parametro \"Dono\" está faltando");
+        }
+
     }
 
 }
