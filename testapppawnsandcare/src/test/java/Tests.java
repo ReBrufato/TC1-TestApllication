@@ -276,6 +276,30 @@ public class Tests {
             assertThat(petPage.getErrorMessage()).isEqualTo("O parametro \"Dono\" está faltando");
         }
 
+        @Test
+        @DisplayName("Should add a client, a pet and delete the pet data after it")
+        void shouldAddAClientAPetAndDeleteThePetDataAfterIt() {
+            IndexPage indexPage = new IndexPage(driver);
+            ClientDTO clientDTO = new ClientDTO(
+                    faker.name().fullName(),
+                    faker.idNumber().valid(),
+                    faker.internet().emailAddress(),
+                    faker.phoneNumber().phoneNumber());
+            indexPage.addClient(clientDTO);
+
+            PetPage petPage = new PetPage(driver);  // indexPage.goToPetPage(); it is not possible to use this method
+                                                    // because the modal container obscures the link element, even using
+                                                    // a fluent wait
+            PetDTO petDTO = new PetDTO(
+                    faker.cat().name(),
+                    "Gato",
+                    faker.cat().breed(),
+                    clientDTO.getName());
+            petPage.addPet(petDTO);
+            petPage.deletePet();
+            assertThat(petPage.getPetTableBodySize()).isZero();
+        }
+
     }
 
 }
