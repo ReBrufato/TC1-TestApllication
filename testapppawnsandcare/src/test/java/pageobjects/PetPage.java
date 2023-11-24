@@ -3,7 +3,6 @@ package pageobjects;
 import java.time.Duration;
 import java.util.List;
 
-import dtos.ClientDTO;
 import dtos.PetDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -72,6 +71,10 @@ public class PetPage {
 
     public int getPetTableBodySize() {
         return getPetTableBodyRows().size();
+    }
+
+    public PetPage reloadThePage() {
+        return new PetPage(driver);
     }
 
     private List<WebElement> getPetTableBodyRows() {

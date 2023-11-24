@@ -95,7 +95,7 @@ public class IndexPage {
 
         public String getErrorMessage() {
                 return new WebDriverWait(driver, Duration.ofSeconds(10)).until(
-                        ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText();
+                                ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText();
         }
 
         private void setFormInputs(ClientDTO clientDTO) {
@@ -119,4 +119,7 @@ public class IndexPage {
                 inputElements.get(3).clear();
         }
 
+        public IndexPage reloadThePage() {
+                return new IndexPage(driver);
+        }
 }
