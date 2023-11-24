@@ -132,6 +132,19 @@ public class Tests {
             assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"name\" está faltando");
         }
 
+        @Test
+        @DisplayName("Should not allow to add a client with empty email")
+        public void shouldNotAllowToAddAClientWithEmptyEmail() {
+            IndexPage indexPage = new IndexPage(driver);
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            faker.idNumber().valid(),
+                            "",
+                            faker.phoneNumber().phoneNumber()));
+            assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"email\" está faltando");
+        }
+
     }
 
     @Nested
