@@ -145,6 +145,19 @@ public class Tests {
             assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"email\" está faltando");
         }
 
+        @Test
+        @DisplayName("Should not allow to add a client with empty doc")
+        public void shouldNotAllowToAddAClientWithEmptyDoc() {
+            IndexPage indexPage = new IndexPage(driver);
+            indexPage.addClient(
+                    new ClientDTO(
+                            faker.name().fullName(),
+                            "",
+                            faker.internet().emailAddress(),
+                            faker.phoneNumber().phoneNumber()));
+            assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"document\" está faltando");
+        }
+
     }
 
     @Nested
