@@ -28,6 +28,8 @@ public class PetPage {
     private By petTableBodyBy = By
             .xpath("/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div[2]/div[2]/table/tbody");
 
+    private By errorMessageBy = By.xpath("/html/body/div[3]/div[4]/div/div/div[2]/p[1]");
+
     public PetPage(WebDriver driver) {
         this.driver = driver;
         driver.get(url);
@@ -105,5 +107,10 @@ public class PetPage {
                 thElements.get(3).getText(),
                 thElements.get(4).getText(),
                 thElements.get(2).getText());
+    }
+
+    public String getErrorMessage() {
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText();
     }
 }
