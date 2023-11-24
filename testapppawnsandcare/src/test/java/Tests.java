@@ -119,6 +119,19 @@ public class Tests {
             assertThat(indexPage.getClientTableBodySize()).isZero();
         }
 
+        @Test
+        @DisplayName("Should not allow to add a client with empty name")
+        public void shouldNotAllowToAddAClientWithEmptyName() {
+            IndexPage indexPage = new IndexPage(driver);
+            indexPage.addClient(
+                    new ClientDTO(
+                            "",
+                            faker.idNumber().valid(),
+                            faker.internet().emailAddress(),
+                            faker.phoneNumber().phoneNumber()));
+            assertThat(indexPage.getErrorMessage()).isEqualTo("O parametro \"name\" está faltando");
+        }
+
     }
 
     @Nested
@@ -144,8 +157,7 @@ public class Tests {
             indexPage.addClient(clientDTO);
 
             PetPage petPage = new PetPage(driver); // indexPage.goToPetPage(); it is not possible to use this method
-                                                   // because the modal container obscures the link element, even using
-                                                   // a fluent wait
+                                                   // because the modal container obscures the link element, even using a fluent wait
             int tableSizeBefore = petPage.getPetTableBodySize();
             PetDTO petDTO = new PetDTO(
                     faker.cat().name(),
