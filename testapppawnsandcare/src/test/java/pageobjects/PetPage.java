@@ -113,4 +113,15 @@ public class PetPage {
         return new WebDriverWait(driver, Duration.ofSeconds(10)).until(
                 ExpectedConditions.visibilityOfElementLocated(errorMessageBy)).getText();
     }
+
+    public void deletePet() {
+        WebElement delBtn = getPetTableBodyRows().get(getPetTableBodySize() - 1)
+                .findElements(By.tagName("button")).get(1);
+        new FluentWait<>(driver).withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(500))
+                .ignoring(ElementClickInterceptedException.class)
+                .until(ExpectedConditions.elementToBeClickable(delBtn)).click();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.elementToBeClickable(confirmBtnBy)).click();
+    }
 }
